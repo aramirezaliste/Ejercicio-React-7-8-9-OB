@@ -6,10 +6,12 @@ import { ContactComponent } from './pure/contact';
 export const ContactList = (props) => {
 
     //Contacto de prueba
-    const contactDefault = new Contacto("Andres", "Default Description", true, LEVELS.NORMAL);
+    const contactDefault = new Contacto("Andres", "Default Description", false, LEVELS.NORMAL);
+    const contactDefault1 = new Contacto("Andres2", "Default Description", false, LEVELS.NORMAL);
+    const contactDefault2 = new Contacto("Andres3", "Default Description", false, LEVELS.NORMAL);
 
     //Estado inicial componente
-    const [contacts, setContactos] = useState(contactDefault)
+    const [contacts, setContactos] = useState([contactDefault, contactDefault1, contactDefault2])
 
     //Ciclo de vida del componente
     useEffect(() => {
@@ -22,6 +24,14 @@ export const ContactList = (props) => {
         //Tendra efecto al cambiar contactos
     }, [contacts])
 
+    //Funcion que cambia el estado con un evento
+    function cambiarCompletado(contacto) {
+        console.log("Tarea completa")
+        const index = contacts.indexOf(contacto)
+        const tempContacts = [...contacts]
+        tempContacts[index].estado = !tempContacts[index].estado
+        setContactos(tempContacts)
+    }
 
     return (
         <div>
@@ -41,7 +51,15 @@ export const ContactList = (props) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <ContactComponent contacto={contacts} />
+                                {contacts.map((contact, index) => {
+                                    return (
+                                        <ContactComponent
+                                            key={index}
+                                            contacto={contact}
+                                            completa={cambiarCompletado} />
+                                    )
+                                })
+                                }
 
                             </tbody>
                         </table>
