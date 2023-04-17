@@ -5,19 +5,19 @@ import { Contacto } from '../../models/contact.class';
 
 export const ContactComponent = ({ contacto }) => {
     return (
-        <tr>
-            <th>
-                <span>{contacto.nombre}</span>
-            </th>
-            <th>
-                <span>{contacto.descripcion}</span>
-            </th>
-            <th>
-                <span>{contacto.importancia}</span>
-            </th>
-            <th>
-                <span>{contacto.estado ? "Conectado" : "Desconectado"}</span>
-            </th>
+        <tr className='fw-normal'>
+            <td>
+                <span className='align-middle'>{contacto.nombre}</span>
+            </td>
+            <td>
+                <span className='align-middle'>{contacto.descripcion}</span>
+            </td>
+            <td>
+                <span className='align-middle'>{contacto.importancia}</span>
+            </td>
+            <td>
+                <span className='align-middle'>{contacto.estado ? "Conectado" : "Desconectado"}</span>
+            </td>
         </tr>
     )
 }
