@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { LEVELS } from '../models/levels'
 import { Contacto } from '../models/contact.class';
 import { ContactComponent } from './pure/contact';
+import { CreateContacto } from '../forms/createContacto';
 
 export const ContactList = (props) => {
 
     //Contacto de prueba
-    const contactDefault = new Contacto("Andres", "Default Description", false, LEVELS.NORMAL);
-    const contactDefault1 = new Contacto("Andres2", "Default Description", false, LEVELS.NORMAL);
-    const contactDefault2 = new Contacto("Andres3", "Default Description", false, LEVELS.NORMAL);
+    const contactDefault = new Contacto("Andres", "Humano", false, LEVELS.NORMAL);
+    const contactDefault1 = new Contacto("Toto", "Perro", false, LEVELS.IMPORTANTE);
+    const contactDefault2 = new Contacto("Cleo", "Gata", false, LEVELS.IMPORTANTE);
 
     //Estado inicial componente
     const [contacts, setContactos] = useState([contactDefault, contactDefault1, contactDefault2])
@@ -24,30 +25,47 @@ export const ContactList = (props) => {
         //Tendra efecto al cambiar contactos
     }, [contacts])
 
-    //Funcion que cambia el estado con un evento
+    //Funcion que cambia el estado del contacto
     function cambiarCompletado(contacto) {
-        console.log("Tarea completa")
+        console.log("Contacto modificado")
         const index = contacts.indexOf(contacto)
         const tempContacts = [...contacts]
         tempContacts[index].estado = !tempContacts[index].estado
         setContactos(tempContacts)
     }
 
+    //Funcion que elimina un contacto
+    function eliminarContacto(contacto) {
+        console.log("Contacto eliminado")
+        const index = contacts.indexOf(contacto)
+        const tempContacts = [...contacts]
+        tempContacts.splice(index,1)
+        setContactos(tempContacts)
+    }
+
+    //Funcion para crear un nuevo contacto
+    function addContacto(nuevo){
+        console.log("Contacto creado")
+        const tempContacts = [...contacts]
+        tempContacts.push(nuevo);
+        setContactos(tempContacts)
+    }
+
     return (
         <div>
-            <div className='col-12 d-flex justify-content-center'>
-                <div className="card">
+            <div className='container d-flex justify-content-center'>
+                <div className="card row">
                     <div className="card-header">
                         <h4>Lista de contactos</h4>
                     </div>
-                    <div className="card-body">
+                    <div className="card-body ">
                         <table>
                             <thead>
                                 <tr>
-                                    <th scope='col'>Nombre</th>
-                                    <th scope='col'>Descripcion</th>
-                                    <th scope='col'>Importancia</th>
-                                    <th scope='col'>Estado</th>
+                                    <th scope='col-3'>Nombre</th>
+                                    <th scope='col-3'>Descripcion</th>
+                                    <th scope='col-3'>Importancia</th>
+                                    <th scope='col-3'>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,7 +74,8 @@ export const ContactList = (props) => {
                                         <ContactComponent
                                             key={index}
                                             contacto={contact}
-                                            completa={cambiarCompletado} />
+                                            completa={cambiarCompletado}
+                                            remove={eliminarContacto} />
                                     )
                                 })
                                 }
@@ -64,6 +83,7 @@ export const ContactList = (props) => {
                             </tbody>
                         </table>
                     </div>
+                    <CreateContacto add={addContacto}/>
                 </div>
             </div>
         </div>
